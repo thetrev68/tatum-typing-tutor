@@ -97,6 +97,7 @@ function App() {
     }
 
     // Show level change notification if difficulty changed
+    const hasLevelChange = progressionResult === 'level_up' || progressionResult === 'level_down';
     if (progressionResult === 'level_up') {
       setShowLevelUpNotification(true);
       setLevelUpMessage(difficulty.getCurrentLabel());
@@ -122,19 +123,34 @@ function App() {
       }, 1000);
     } else {
       setTimeout(() => {
-        nextLevel();
+        // Don't speak word immediately if level-up notification is showing
+        const newWord = nextLevel(!hasLevelChange);
         setMascotMood('neutral');
+
+        // If level changed, speak the word after notification disappears
+        if (hasLevelChange) {
+          setTimeout(() => {
+            speakWord(newWord);
+          }, 2500); // Speak 2.5 seconds later (total 3.5s from now, 0.5s after notification clears)
+        }
       }, 1000);
     }
   };
 
-  const nextLevel = () => {
+  const nextLevel = (shouldSpeakImmediately = true) => {
       // Use adaptive difficulty levels
       const levels = difficulty.getCurrentLevels();
       const newWord = getRandomWordFromLevels(levels);
       setCurrentWord(newWord);
       setWordHasError(false); // Reset error flag for the new word
-      speakWord(newWord);
+
+      // Only speak immediately if requested (skip if level-up notification is showing)
+      if (shouldSpeakImmediately) {
+        speakWord(newWord);
+      }
+
+      // Return the word so we can speak it later if needed
+      return newWord;
   };
 
   const { cursor, isShake, handleKeyDown } = useTypingEngine(
