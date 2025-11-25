@@ -172,65 +172,71 @@ function App() {
   const targetLetter = currentWord[cursor];
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-sky-100 select-none overflow-hidden">
-      
-      <div className="absolute top-4 left-4 text-2xl font-bold text-sky-800">
-        Tatum Typing Tutor
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-linear-to-br from-amber-100 via-orange-50 to-yellow-100 select-none overflow-hidden p-2 sm:p-4">
+
+      {/* Personalized Hero Branding */}
+      <div className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20">
+        <div className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight">
+          <span className="text-orange-500 drop-shadow-lg">TATUM'S</span>
+        </div>
+        <div className="text-sm sm:text-xl md:text-2xl font-bold text-amber-700 -mt-1">
+          Typing Adventure
+        </div>
       </div>
 
-      <div className="w-full max-w-5xl h-[600px] bg-white rounded-3xl shadow-2xl border-b-8 border-sky-200 flex flex-col items-center justify-center relative overflow-hidden">
+      <div className="w-full max-w-5xl h-full sm:h-[600px] bg-linear-to-b from-white to-orange-50 rounded-2xl sm:rounded-3xl shadow-2xl border-b-4 sm:border-b-8 border-orange-300 flex flex-col items-center justify-center relative overflow-hidden mt-16 sm:mt-0">
         
         {/* Streak Component Positioned inside the Game Board */}
         {gameState === 'playing' && <StreakCounter count={streak} />}
 
         {gameState === 'menu' && (
-          <div className="flex w-full h-full">
+          <div className="flex flex-col sm:flex-row w-full h-full overflow-y-auto sm:overflow-hidden">
             {/* Left Side - Stats */}
-            <div className="w-1/3 p-6 flex items-center justify-center">
+            <div className="w-full sm:w-1/3 p-3 sm:p-6 flex items-center justify-center">
               <StatsDisplay stats={stats} />
             </div>
 
             {/* Right Side - Menu */}
-            <div className="w-2/3 flex flex-col items-center justify-center space-y-8 p-6">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-700 mb-4">Choose Your Words!</h2>
-                <div className="flex flex-wrap gap-3 justify-center max-w-2xl">
+            <div className="w-full sm:w-2/3 flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-3 sm:p-6 pb-6">
+              <div className="mb-4 sm:mb-8">
+                <h2 className="text-lg sm:text-2xl font-bold text-amber-800 mb-3 sm:mb-4 text-center">Choose Your Words!</h2>
+                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center max-w-2xl">
                   <button
                     onClick={() => setCurrentPath('beginner')}
-                    className={`px-6 py-3 rounded-xl font-bold transition-all ${
+                    className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'beginner'
-                        ? 'bg-purple-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-orange-500 text-white shadow-lg scale-105'
+                        : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border-2 border-amber-200'
                     }`}
                   >
                     🔤 Letters & Simple Words
                   </button>
                   <button
                     onClick={() => setCurrentPath('kindergarten')}
-                    className={`px-6 py-3 rounded-xl font-bold transition-all ${
+                    className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'kindergarten'
-                        ? 'bg-purple-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-orange-500 text-white shadow-lg scale-105'
+                        : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border-2 border-amber-200'
                     }`}
                   >
                     🎒 Kindergarten Mix
                   </button>
                   <button
                     onClick={() => setCurrentPath('fun')}
-                    className={`px-6 py-3 rounded-xl font-bold transition-all ${
+                    className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'fun'
-                        ? 'bg-purple-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-orange-500 text-white shadow-lg scale-105'
+                        : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border-2 border-amber-200'
                     }`}
                   >
                     🎨 Animals & Colors
                   </button>
                   <button
                     onClick={() => setCurrentPath('firstGrade')}
-                    className={`px-6 py-3 rounded-xl font-bold transition-all ${
+                    className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'firstGrade'
-                        ? 'bg-purple-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-orange-500 text-white shadow-lg scale-105'
+                        : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border-2 border-amber-200'
                     }`}
                   >
                     📚 1st Grade Challenge
@@ -240,16 +246,16 @@ function App() {
 
               <button
                 onClick={startGame}
-                className="px-12 py-6 bg-green-500 hover:bg-green-400 text-white rounded-full text-4xl font-black shadow-[0_4px_0_rgb(21,128,61)] active:shadow-none active:translate-y-1 transition-all animate-bounce"
+                className="px-8 py-4 sm:px-12 sm:py-6 bg-green-500 hover:bg-green-400 active:bg-green-600 text-white rounded-full text-2xl sm:text-4xl font-black shadow-[0_4px_0_rgb(21,128,61)] sm:shadow-[0_6px_0_rgb(21,128,61)] active:shadow-none active:translate-y-1 transition-all animate-bounce"
               >
-                PLAY
+                START!
               </button>
             </div>
           </div>
         )}
 
         {gameState === 'playing' && (
-          <div className="flex flex-col items-center w-full h-full pt-10">
+          <div className="flex flex-col items-center w-full h-full pt-6 sm:pt-10 overflow-y-auto sm:overflow-hidden">
 
             {/* Level Up Notification Overlay */}
             <LevelUpNotification
@@ -259,43 +265,43 @@ function App() {
             />
 
             {/* Word Progress Counter */}
-            <div className="absolute top-6 right-6 flex flex-col items-end gap-1">
-              <div className="text-2xl font-bold text-sky-700">
+            <div className="absolute top-3 sm:top-6 right-3 sm:right-6 flex flex-col items-end gap-1 text-right">
+              <div className="text-lg sm:text-2xl font-bold text-orange-600">
                 📝 {wordsCompleted}/{WORDS_TO_WIN}
               </div>
-              <div className="text-sm font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+              <div className="text-xs sm:text-sm font-semibold text-amber-700 bg-amber-100 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border-2 border-amber-300">
                 {difficulty.getCurrentLabel()}
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-[10px] sm:text-xs text-amber-600">
                 Accuracy: {difficulty.getAccuracy()}%
               </div>
             </div>
 
             {/* Mascot Character */}
-            <div className="mb-6">
-              <Mascot mood={mascotMood} size={160} />
+            <div className="mb-3 sm:mb-6">
+              <Mascot mood={mascotMood} size={120} className="sm:w-40 sm:h-40" />
             </div>
 
-            <div className="mb-8">
+            <div className="mb-4 sm:mb-8 px-2">
                <WordDisplay word={currentWord} cursor={cursor} isShake={isShake} />
             </div>
 
-            <div className="mb-8">
+            <div className="mb-4 sm:mb-8 w-full px-2 overflow-x-auto">
                 <Keyboard targetKey={targetLetter} />
             </div>
 
             <button
               onClick={() => speakWord(currentWord)}
-              className="flex items-center gap-2 px-6 py-3 bg-sky-50 text-sky-600 rounded-xl font-bold hover:bg-sky-100 transition"
+              className="flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 bg-amber-50 text-amber-700 rounded-xl font-bold hover:bg-amber-100 active:bg-amber-200 border-2 border-amber-200 transition text-sm sm:text-base mb-4"
             >
               <span>🔊</span> Say "{currentWord}"
             </button>
 
             <button
               onClick={handleBackToMenu}
-              className="absolute top-6 left-6 text-gray-300 hover:text-red-400 font-bold"
+              className="absolute top-3 sm:top-6 left-3 sm:left-6 text-orange-300 hover:text-red-500 active:text-red-600 font-bold text-base sm:text-lg"
             >
-              QUIT
+              ← QUIT
             </button>
           </div>
         )}

@@ -17,16 +17,18 @@ export const useLocalStorage = (key, initialValue) => {
   });
 
   // Update localStorage whenever value changes
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     try {
       // Allow value to be a function like useState
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      setStoredValue(currentValue => {
+        const valueToStore = value instanceof Function ? value(currentValue) : value;
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        return valueToStore;
+      });
     } catch (error) {
       console.warn(`Error setting localStorage key "${key}":`, error);
     }
-  };
+  }, [key]);
 
   return [storedValue, setValue];
 };
@@ -91,7 +93,7 @@ export const usePreferences = () => {
 
   const updatePreference = useCallback((key, value) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
-  }, [setPreferences]);
+  }, []); // setPreferences is now stable, so empty deps array is safe
 
   return { preferences, updatePreference, setPreferences };
 };
