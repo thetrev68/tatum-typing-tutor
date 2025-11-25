@@ -16,6 +16,7 @@ function App() {
   // --- Local Storage & Persistence ---
   const { stats, recordGame, resetStats } = useGameStats();
   const { preferences, updatePreference } = usePreferences();
+  const [showUpperCaseKeyboard, setShowUpperCaseKeyboard] = useState(preferences.showUpperCaseKeyboard || false);
   // ----------------------------
 
   const [gameState, setGameState] = useState('menu');
@@ -244,6 +245,34 @@ function App() {
 
             {/* Right Side - Menu */}
             <div className="w-full sm:w-2/3 flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-3 sm:p-6 pb-6">
+              {/* Keyboard Display Case Toggle */}
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="uppercase-keyboard-toggle"
+                  checked={showUpperCaseKeyboard}
+                  onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    setShowUpperCaseKeyboard(isChecked);
+                    updatePreference('showUpperCaseKeyboard', isChecked);
+                    handleTextClick(isChecked ? 'Uppercase Keyboard' : 'Lowercase Keyboard');
+                  }}
+                  className="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor="uppercase-keyboard-toggle"
+                  className="text-base sm:text-lg font-bold text-amber-800 cursor-pointer"
+                  onClick={() => {
+                    const isChecked = !showUpperCaseKeyboard;
+                    setShowUpperCaseKeyboard(isChecked);
+                    updatePreference('showUpperCaseKeyboard', isChecked);
+                    handleTextClick(isChecked ? 'Uppercase Keyboard' : 'Lowercase Keyboard');
+                  }}
+                >
+                  ABC Keyboard
+                </label>
+              </div>
+
               <div className="mb-4 sm:mb-8">
                 <h2
                   className="text-lg sm:text-2xl font-bold text-amber-800 mb-3 sm:mb-4 text-center cursor-pointer hover:scale-105 active:scale-95 transition-transform"
@@ -367,7 +396,7 @@ function App() {
             </div>
 
             <div className="shrink-0 w-full px-2">
-                <Keyboard targetKey={targetLetter} onKeyPress={handleKeyDown} />
+                <Keyboard targetKey={targetLetter} onKeyPress={handleKeyDown} displayUpperCase={showUpperCaseKeyboard} />
             </div>
 
             <button

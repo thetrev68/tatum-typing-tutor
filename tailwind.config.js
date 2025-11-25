@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         // This overrides the default font to be Schoolbell
-        sans: ['"Schoolbell"', 'cursive', 'sans-serif'], 
+        sans: ['"Teachers"', 'sans-serif'],
         mono: ['"Courier New"', 'monospace'], // Keep mono for the word display if you prefer
       }
     },

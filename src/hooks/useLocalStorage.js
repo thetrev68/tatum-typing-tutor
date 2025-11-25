@@ -88,7 +88,8 @@ export const usePreferences = () => {
     soundEnabled: true,
     wordsPerGame: 15,
     showKeyboardHints: true,
-    playerName: 'Tatum'
+    playerName: 'Tatum',
+    showUpperCaseKeyboard: false
   });
 
   const updatePreference = useCallback((key, value) => {

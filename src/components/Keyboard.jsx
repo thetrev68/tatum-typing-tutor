@@ -4,12 +4,12 @@ const KEYS = [
   ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 ];
 
-export const Keyboard = ({ targetKey, onKeyPress }) => {
+export const Keyboard = ({ targetKey, onKeyPress, displayUpperCase }) => {
   const handleKeyClick = (char) => {
     if (onKeyPress) {
-      // Create a synthetic keyboard event
+      // Always send the lowercase character to the typing engine
       onKeyPress({
-        key: char,
+        key: char.toLowerCase(),
         preventDefault: () => {},
       });
     }
@@ -20,8 +20,11 @@ export const Keyboard = ({ targetKey, onKeyPress }) => {
       {KEYS.map((row, rowIndex) => (
         <div key={rowIndex} className="flex justify-center gap-1 sm:gap-2">
           {row.map((char) => {
-            // Check if this key is the one needed next
+            // Check if this key is the one needed next (always compare lowercase)
             const isTarget = char === targetKey?.toLowerCase();
+
+            // Display char in uppercase if displayUpperCase is true
+            const displayedChar = displayUpperCase ? char.toUpperCase() : char;
 
             return (
               <button
@@ -29,7 +32,7 @@ export const Keyboard = ({ targetKey, onKeyPress }) => {
                 onClick={() => handleKeyClick(char)}
                 className={`
                   w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center
-                  rounded-lg text-xl sm:text-2xl font-bold uppercase shadow-md transition-all
+                  rounded-lg text-xl sm:text-2xl font-bold shadow-md transition-all
                   cursor-pointer active:scale-95
                   ${isTarget
                     ? 'bg-yellow-400 text-yellow-900 border-b-4 border-yellow-600 animate-bounce'
@@ -37,7 +40,7 @@ export const Keyboard = ({ targetKey, onKeyPress }) => {
                   }
                 `}
               >
-                {char}
+                {displayedChar}
               </button>
             );
           })}
