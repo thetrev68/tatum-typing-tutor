@@ -30,6 +30,12 @@ export const useDifficultyProgression = (initialPath = 'kindergarten') => {
           { name: 'intermediate', label: '🎒 Kindergarten', levels: ['cvc', 'kindergarten'] },
           { name: 'advanced', label: '🚀 1st Grade', levels: ['cvc', 'kindergarten', 'firstGrade'] }
         ];
+      case 'secondGrade':
+        return [
+          { name: 'intermediate', label: '🎒 Kindergarten', levels: ['kindergarten'] },
+          { name: 'advanced', label: '🚀 1st Grade', levels: ['kindergarten', 'firstGrade'] },
+          { name: 'expert', label: '🎓 2nd Grade', levels: ['firstGrade', 'secondGrade'] }
+        ];
       default:
         return [
           { name: 'intermediate', label: '🎒 Kindergarten', levels: ['twoLetter', 'cvc', 'kindergarten', 'animals', 'colors', 'family'] }

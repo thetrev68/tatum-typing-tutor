@@ -82,6 +82,47 @@ export const useGameSounds = () => {
     window.speechSynthesis.speak(utterance);
   }, []);
 
+  // Level-up fanfare - shorter celebratory melody for difficulty increase
+  const playLevelUp = useCallback(() => {
+    try {
+      initAudio();
+      const ctx = audioCtxRef.current;
+
+      // Resume if suspended
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+
+      // Short ascending melody - "Level up!" sound
+      const melody = [
+        { freq: 523, time: 0, duration: 0.1 },       // C
+        { freq: 659, time: 0.1, duration: 0.1 },     // E
+        { freq: 784, time: 0.2, duration: 0.15 },    // G (held slightly)
+      ];
+
+      melody.forEach(({ freq, time, duration }) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle'; // Warm sound
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
+
+        // Volume envelope
+        gain.gain.setValueAtTime(0, ctx.currentTime + time);
+        gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + time + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + time);
+        osc.stop(ctx.currentTime + time + duration);
+      });
+    } catch (error) {
+      console.warn('Level up sound failed:', error);
+    }
+  }, [initAudio]);
+
   // Victory fanfare - upbeat celebratory melody
   const playVictory = useCallback(() => {
     try {
@@ -179,6 +220,7 @@ export const useGameSounds = () => {
     playSuccess: () => playTone(600, 'sine', 0.2), // High Ding
     playError: () => playTone(150, 'sawtooth', 0.4), // Low Buzz
     playKeyClick: () => playTone(800, 'triangle', 0.05), // Short click
+    playLevelUp, // Level-up fanfare for difficulty increase
     playVictory, // Victory fanfare for win screen
     speakWord
   };

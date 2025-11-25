@@ -50,7 +50,7 @@ function App() {
     updatePreference('lastSelectedPath', currentPath);
   }, [currentPath, updatePreference]);
 
-  const { playSuccess, playError, playKeyClick, playVictory, speakWord } = useGameSounds();
+  const { playSuccess, playError, playKeyClick, playLevelUp, playVictory, speakWord } = useGameSounds();
 
   const handleCorrectKey = () => {
     playKeyClick();
@@ -99,6 +99,7 @@ function App() {
     // Show level change notification if difficulty changed
     const hasLevelChange = progressionResult === 'level_up' || progressionResult === 'level_down';
     if (progressionResult === 'level_up') {
+      playLevelUp(); // Play celebratory level-up sound!
       setShowLevelUpNotification(true);
       setLevelUpMessage(difficulty.getCurrentLabel());
       setIsLevelingUp(true);
@@ -203,7 +204,10 @@ function App() {
     speakWord(text);
   };
 
-  const targetLetter = currentWord[cursor];
+  // Disable keyboard hints when at tier 3 or higher (index 2+) - expert mode
+  const isExpertMode = difficulty.currentDifficulty >= 2;
+  const showHints = preferences.showKeyboardHints && !isExpertMode;
+  const targetLetter = showHints ? currentWord[cursor] : null;
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-linear-to-br from-amber-100 via-orange-50 to-yellow-100 select-none overflow-hidden p-2 sm:p-4">
@@ -300,6 +304,19 @@ function App() {
                     }`}
                   >
                     📚 1st Grade Challenge
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleTextClick('Second Grade Challenge');
+                      setCurrentPath('secondGrade');
+                    }}
+                    className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
+                      currentPath === 'secondGrade'
+                        ? 'bg-orange-500 text-white shadow-lg scale-105'
+                        : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border-2 border-amber-200'
+                    }`}
+                  >
+                    🎓 2nd Grade Challenge
                   </button>
                 </div>
               </div>

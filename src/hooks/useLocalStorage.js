@@ -86,7 +86,7 @@ export const usePreferences = () => {
   const [preferences, setPreferences] = useLocalStorage('tatum-typing-preferences', {
     lastSelectedPath: 'kindergarten',
     soundEnabled: true,
-    wordsPerGame: 10,
+    wordsPerGame: 15,
     showKeyboardHints: true,
     playerName: 'Tatum'
   });

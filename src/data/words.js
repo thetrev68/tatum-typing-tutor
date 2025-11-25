@@ -55,6 +55,19 @@ export const wordList = {
     "with", "yes"
   ],
 
+  // Level 6: Second Grade Sight Words (Dolch 1st Grade List + longer words)
+  secondGrade: [
+    "again", "always", "around", "because", "before", "best", "both", "buy", "call",
+    "cold", "does", "don't", "fast", "first", "five", "found", "gave", "goes", "green",
+    "its", "made", "many", "off", "open", "over", "pull", "read", "right", "sing",
+    "sit", "sleep", "tell", "their", "these", "those", "upon", "use", "very", "wash",
+    "which", "why", "wish", "work", "would", "write", "your", "about", "better", "bring",
+    "carry", "clean", "cut", "done", "draw", "drink", "eight", "fall", "far", "full",
+    "got", "grow", "hold", "hot", "hurt", "if", "keep", "kind", "laugh", "light",
+    "long", "much", "myself", "never", "only", "own", "pick", "seven", "shall", "show",
+    "six", "small", "start", "ten", "today", "together", "try", "warm"
+  ],
+
   // Bonus: Fun Theme Words (animals, colors, family)
   animals: [
     "cat", "dog", "pig", "cow", "hen", "fox", "bee", "bug", "ant", "bat",
@@ -94,5 +107,6 @@ export const learningPaths = {
   beginner: ['letters', 'twoLetter', 'cvc'],
   kindergarten: ['twoLetter', 'cvc', 'kindergarten', 'animals', 'colors', 'family'],
   firstGrade: ['cvc', 'kindergarten', 'firstGrade'],
+  secondGrade: ['kindergarten', 'firstGrade', 'secondGrade'],
   fun: ['animals', 'colors']
 };
