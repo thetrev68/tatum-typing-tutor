@@ -6,6 +6,7 @@ export const useTypingEngine = (targetWord, onCorrect, onError, onComplete) => {
 
   // Reset cursor when word changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCursor(0);
     setIsShake(false);
   }, [targetWord]);

@@ -1,13 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 /**
  * Smart difficulty progression system that adapts to the player's performance
  * Tracks accuracy and automatically adjusts word complexity
  */
 export const useDifficultyProgression = (initialPath = 'kindergarten') => {
-  const [currentDifficulty, setCurrentDifficulty] = useState(0); // 0-4 index
-  const [performanceHistory, setPerformanceHistory] = useState([]);
-
   // Difficulty tiers from easiest to hardest
   const difficultyTiers = [
     { name: 'letters', label: '🔤 Letters', levels: ['letters'] },
@@ -17,17 +14,17 @@ export const useDifficultyProgression = (initialPath = 'kindergarten') => {
     { name: 'advanced', label: '🚀 1st Grade', levels: ['cvc', 'kindergarten', 'firstGrade'] }
   ];
 
-  // Map initial path to difficulty tier
-  useEffect(() => {
-    const pathMap = {
-      'beginner': 0,
-      'kindergarten': 3,
-      'firstGrade': 4,
-      'fun': 2
-    };
-    const initialDiff = pathMap[initialPath] || 3;
-    setCurrentDifficulty(initialDiff);
-  }, [initialPath]);
+  // Map initial path to difficulty tier - use useMemo to derive initial value
+  const pathMap = {
+    'beginner': 0,
+    'kindergarten': 3,
+    'firstGrade': 4,
+    'fun': 2
+  };
+  const initialDiff = pathMap[initialPath] || 3;
+
+  const [currentDifficulty, setCurrentDifficulty] = useState(initialDiff);
+  const [performanceHistory, setPerformanceHistory] = useState([]);
 
   // Track performance of completed word
   const recordWord = (wasPerfect) => {

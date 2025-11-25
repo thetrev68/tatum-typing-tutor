@@ -48,7 +48,7 @@ function App() {
   // Save selected path to preferences
   useEffect(() => {
     updatePreference('lastSelectedPath', currentPath);
-  }, [currentPath]);
+  }, [currentPath, updatePreference]);
 
   const { playSuccess, playError, playKeyClick, playVictory, speakWord } = useGameSounds();
 

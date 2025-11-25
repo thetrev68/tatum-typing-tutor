@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
 /**
  * Custom hook for persisting state to localStorage
@@ -89,9 +89,9 @@ export const usePreferences = () => {
     playerName: 'Tatum'
   });
 
-  const updatePreference = (key, value) => {
+  const updatePreference = useCallback((key, value) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
-  };
+  }, [setPreferences]);
 
   return { preferences, updatePreference, setPreferences };
 };
