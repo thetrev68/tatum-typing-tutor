@@ -23,13 +23,14 @@ src/
 ├── components/          # Visual UI elements
 │   ├── Keyboard.jsx              # Responsive on-screen keyboard (highlights next key)
 │   ├── Mascot.jsx                # Animated SVG character with mood states
+│   ├── MobileInput.jsx           # Mobile keyboard activation & input handling
 │   ├── StreakCounter.jsx         # Fire emoji streak counter (bottom-left)
 │   ├── WordDisplay.jsx           # Responsive word display (changes color per letter)
 │   ├── WinScreen.jsx             # Victory celebration screen
 │   ├── StatsDisplay.jsx          # Persistent game statistics
 │   └── LevelUpNotification.jsx   # Difficulty change overlay
 ├── data/               # Static content
-│   └── words.js                  # Word lists: beginner, kindergarten, fun, firstGrade
+│   └── words.js                  # Word lists: letters, twoLetter, cvc, kindergarten, firstGrade, secondGrade, animals, colors, family
 ├── hooks/              # Core Business Logic (Headless)
 │   ├── useGameSounds.js          # Audio synthesis & TTS wrapper
 │   ├── useTypingEngine.js        # Keystroke validation & cursor tracking
@@ -60,18 +61,26 @@ public/
 - Highlights the specific key needed next (Yellow/Bounce animation)
 - Visual QWERTY keyboard display
 
-### 4. Game State Machine ([App.jsx](src/App.jsx))
+### 4. Mobile Input Handler ([MobileInput.jsx](src/components/MobileInput.jsx))
+- Detects mobile devices and activates keyboard
+- Shows tap prompt overlay on game start
+- Handles both physical and virtual keyboard input
+- Manages focus and blur states for mobile keyboards
+- Converts mobile input events to keyboard events for typing engine
+
+### 5. Game State Machine ([App.jsx](src/App.jsx))
 - **States:** `menu` (start screen) | `playing` (active game) | `win` (completion screen)
 - **Word Flow:** Random word → User types → Success audio → Next word
 - **Streak System:** Counts consecutive perfect words (no errors)
 - **Adaptive Difficulty:** Automatically adjusts word difficulty based on performance
 
-### 5. Difficulty Progression ([useDifficultyProgression.js](src/hooks/useDifficultyProgression.js))
+### 6. Difficulty Progression ([useDifficultyProgression.js](src/hooks/useDifficultyProgression.js))
 - Tracks accuracy and adjusts difficulty dynamically
 - Provides visual feedback for level changes
 - Maintains balanced challenge for optimal learning
+- Progresses through 9 levels: letters, twoLetter, cvc, kindergarten, firstGrade, secondGrade, animals, colors, family
 
-### 6. Local Storage ([useLocalStorage.js](src/hooks/useLocalStorage.js))
+### 7. Local Storage ([useLocalStorage.js](src/hooks/useLocalStorage.js))
 - Persists game statistics (games played, words typed, accuracy)
 - Saves user preferences (last selected word path, words per game)
 - Uses React hooks with proper memoization to prevent race conditions
@@ -79,15 +88,17 @@ public/
 ## Completed Features
 - [x] Dynamic typing validation with real-time feedback
 - [x] Visual feedback (Green correct / Orange current / Red shake error)
-- [x] Audio feedback (TTS + synthesized SFX)
+- [x] Audio feedback (TTS + synthesized SFX with letter pronunciation)
 - [x] Responsive on-screen keyboard with next-key highlighting
+- [x] Mobile keyboard activation with tap prompt overlay
 - [x] Streak counter for perfect words (bottom-left with fire emoji)
 - [x] Tailwind v4 styling with warm amber/orange theme
-- [x] Level selector (4 word paths: Beginner, Kindergarten, Fun, 1st Grade)
-- [x] Win state with celebratory animations
+- [x] Level selector (4 word paths: Beginner, Kindergarten, Fun, 1st Grade/2nd Grade)
+- [x] Win state with celebratory animations and fanfare
 - [x] SVG mascot character with mood reactions (neutral, happy, celebrating, excited)
 - [x] Local storage persistence for stats and preferences
-- [x] Adaptive difficulty progression system
+- [x] Stats reset functionality
+- [x] Adaptive difficulty progression system (9 levels)
 - [x] Mobile-responsive design (320px to 1920px+)
 - [x] Personalized branding with "TATUM'S" hero text
 - [x] Custom SVG favicon with "T" logo
