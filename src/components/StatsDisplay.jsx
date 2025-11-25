@@ -1,4 +1,4 @@
-export const StatsDisplay = ({ stats }) => {
+export const StatsDisplay = ({ stats, onReset }) => {
   if (!stats || stats.totalGamesPlayed === 0) {
     return (
       <div className="bg-linear-to-r from-amber-50 to-orange-50 rounded-xl sm:rounded-2xl p-3 sm:p-6 shadow-lg border-2 border-amber-200">
@@ -69,6 +69,16 @@ export const StatsDisplay = ({ stats }) => {
         <div className="mt-3 sm:mt-4 text-center text-xs sm:text-sm font-bold text-purple-600 bg-purple-50 rounded-lg py-1.5 sm:py-2">
           🎯 Every word you type makes you stronger! 🎯
         </div>
+      )}
+
+      {/* Reset Stats Button */}
+      {onReset && (
+        <button
+          onClick={onReset}
+          className="mt-3 sm:mt-4 w-full text-xs sm:text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg py-1.5 sm:py-2 transition-all font-semibold"
+        >
+          🔄 Reset All Stats
+        </button>
       )}
     </div>
   );

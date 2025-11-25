@@ -14,7 +14,7 @@ import { StatsDisplay } from './components/StatsDisplay';
 
 function App() {
   // --- Local Storage & Persistence ---
-  const { stats, recordGame } = useGameStats();
+  const { stats, recordGame, resetStats } = useGameStats();
   const { preferences, updatePreference } = usePreferences();
   // ----------------------------
 
@@ -219,7 +219,7 @@ function App() {
           <div className="flex flex-col sm:flex-row w-full h-full overflow-y-auto sm:overflow-hidden">
             {/* Left Side - Stats */}
             <div className="w-full sm:w-1/3 p-3 sm:p-6 flex items-center justify-center">
-              <StatsDisplay stats={stats} />
+              <StatsDisplay stats={stats} onReset={resetStats} />
             </div>
 
             {/* Right Side - Menu */}
