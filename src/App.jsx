@@ -54,6 +54,13 @@ function App() {
 
   const handleCorrectKey = () => {
     playKeyClick();
+
+    // Speak the letter that was just typed correctly
+    const typedLetter = currentWord[cursor];
+    if (typedLetter) {
+      speakWord(typedLetter);
+    }
+
     setMascotMood('happy');
     setTimeout(() => setMascotMood('neutral'), 500);
   };
