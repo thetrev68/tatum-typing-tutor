@@ -93,7 +93,7 @@ export const usePreferences = () => {
 
   const updatePreference = useCallback((key, value) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
-  }, []); // setPreferences is now stable, so empty deps array is safe
+  }, [setPreferences]);
 
   return { preferences, updatePreference, setPreferences };
 };
