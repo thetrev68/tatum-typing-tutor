@@ -210,14 +210,18 @@ function App() {
 
       {/* Personalized Hero Branding */}
       <div
-        className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20 cursor-pointer hover:scale-105 active:scale-95 transition-transform"
+        className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20 cursor-pointer hover:scale-105 active:scale-95 transition-transform select-auto touch-manipulation"
         onClick={handleTitleClick}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          handleTitleClick();
+        }}
         title="Click to hear the title!"
       >
-        <div className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight">
+        <div className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight pointer-events-none">
           <span className="text-orange-500 drop-shadow-lg">TATUM'S</span>
         </div>
-        <div className="text-sm sm:text-xl md:text-2xl font-bold text-amber-700 -mt-1">
+        <div className="text-sm sm:text-xl md:text-2xl font-bold text-amber-700 -mt-1 pointer-events-none">
           Typing Adventure
         </div>
       </div>
