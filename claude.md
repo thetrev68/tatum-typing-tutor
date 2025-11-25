@@ -1,13 +1,15 @@
-# Claude Context: Tatum Typing Tutor
+# Claude Context: Tatum's Typing Adventure
 
 ## Project Overview
-A lightweight, browser-based typing and sight-reading game for K-1 students, optimized for Chromebooks. The app teaches kindergarteners and 1st graders how to type and sight-read simultaneously using immediate audio-visual feedback.
+A personalized, browser-based typing and sight-reading game for K-1 students, optimized for Chromebooks and mobile devices. The app teaches kindergarteners and 1st graders how to type and sight-read simultaneously using immediate audio-visual feedback. Features a warm amber/orange theme with prominent "TATUM'S" branding for personalization.
 
 ## Core Design Principles
 - **Zero Assets:** All graphics use programmatic SVGs; all audio uses Web Audio API + SpeechSynthesis API
-- **Offline-First:** Designed to run on low-spec Chromebooks without internet
+- **Offline-First:** Designed to run on low-spec Chromebooks, tablets, and phones without internet
 - **Immediate Feedback:** Real-time audio and visual responses to user input
 - **Age-Appropriate UX:** Large buttons, clear colors, simple navigation for 5-6 year olds
+- **ADHD-Friendly:** Warm amber/orange color scheme, high contrast, clear visual hierarchy
+- **Mobile-Responsive:** Fully responsive design from 320px (mobile) to 1920px+ (desktop)
 
 ## Tech Stack
 - **Frontend:** React 18 + Vite
@@ -19,16 +21,25 @@ A lightweight, browser-based typing and sight-reading game for K-1 students, opt
 ```
 src/
 ├── components/          # Visual UI elements
-│   ├── Keyboard.jsx         # Visual hint system (highlights next key)
-│   ├── StreakCounter.jsx    # Gamification UI (perfect word counter)
-│   └── WordDisplay.jsx      # Main "Stage" text display
+│   ├── Keyboard.jsx              # Responsive on-screen keyboard (highlights next key)
+│   ├── Mascot.jsx                # Animated SVG character with mood states
+│   ├── StreakCounter.jsx         # Fire emoji streak counter (bottom-left)
+│   ├── WordDisplay.jsx           # Responsive word display (changes color per letter)
+│   ├── WinScreen.jsx             # Victory celebration screen
+│   ├── StatsDisplay.jsx          # Persistent game statistics
+│   └── LevelUpNotification.jsx   # Difficulty change overlay
 ├── data/               # Static content
-│   └── words.js            # Dolch/Fry word lists by difficulty
+│   └── words.js                  # Word lists: beginner, kindergarten, fun, firstGrade
 ├── hooks/              # Core Business Logic (Headless)
-│   ├── useGameSounds.js    # Audio synthesis & TTS wrapper
-│   └── useTypingEngine.js  # Keystroke validation & cursor tracking
+│   ├── useGameSounds.js          # Audio synthesis & TTS wrapper
+│   ├── useTypingEngine.js        # Keystroke validation & cursor tracking
+│   ├── useDifficultyProgression.js # Adaptive difficulty system
+│   └── useLocalStorage.js        # Persistent stats & preferences
 ├── App.jsx             # Main Game Controller / State Machine
-└── main.jsx            # Entry point
+├── main.jsx            # Entry point
+└── index.html          # HTML entry with favicon
+public/
+└── favicon.svg         # Custom "T" logo with warm gradient
 ```
 
 ## Key Systems
@@ -50,26 +61,55 @@ src/
 - Visual QWERTY keyboard display
 
 ### 4. Game State Machine ([App.jsx](src/App.jsx))
-- **States:** `menu` (start screen) | `playing` (active game)
+- **States:** `menu` (start screen) | `playing` (active game) | `win` (completion screen)
 - **Word Flow:** Random word → User types → Success audio → Next word
 - **Streak System:** Counts consecutive perfect words (no errors)
+- **Adaptive Difficulty:** Automatically adjusts word difficulty based on performance
 
-## Current Features (Phase 1 - Complete)
-- [x] Dynamic typing validation
-- [x] Visual feedback (Green correct / Red shake error)
+### 5. Difficulty Progression ([useDifficultyProgression.js](src/hooks/useDifficultyProgression.js))
+- Tracks accuracy and adjusts difficulty dynamically
+- Provides visual feedback for level changes
+- Maintains balanced challenge for optimal learning
+
+### 6. Local Storage ([useLocalStorage.js](src/hooks/useLocalStorage.js))
+- Persists game statistics (games played, words typed, accuracy)
+- Saves user preferences (last selected word path, words per game)
+- Uses React hooks with proper memoization to prevent race conditions
+
+## Completed Features
+- [x] Dynamic typing validation with real-time feedback
+- [x] Visual feedback (Green correct / Orange current / Red shake error)
 - [x] Audio feedback (TTS + synthesized SFX)
-- [x] Assistive keyboard with next-key highlighting
-- [x] Streak counter for perfect words
-- [x] Tailwind v4 styling system
+- [x] Responsive on-screen keyboard with next-key highlighting
+- [x] Streak counter for perfect words (bottom-left with fire emoji)
+- [x] Tailwind v4 styling with warm amber/orange theme
+- [x] Level selector (4 word paths: Beginner, Kindergarten, Fun, 1st Grade)
+- [x] Win state with celebratory animations
+- [x] SVG mascot character with mood reactions (neutral, happy, celebrating, excited)
+- [x] Local storage persistence for stats and preferences
+- [x] Adaptive difficulty progression system
+- [x] Mobile-responsive design (320px to 1920px+)
+- [x] Personalized branding with "TATUM'S" hero text
+- [x] Custom SVG favicon with "T" logo
 
-## Active Development (Phase 2)
-- [ ] Level selector (K vs 1st grade words)
-- [ ] Win state / Level complete screen
-- [ ] SVG mascot character with reactions
+## Design System
 
-## Future Enhancements
-- **Phase 3:** Local storage persistence + PWA for offline install
-- **Phase 4:** Teacher mode with letter-accuracy analytics
+### Color Palette (Warm Theme)
+- **Primary Background:** `bg-linear-to-br from-amber-100 via-orange-50 to-yellow-100`
+- **Game Board:** `bg-linear-to-b from-white to-orange-50` with `border-orange-300`
+- **Branding:** `text-orange-500` with `text-amber-700` subtitle
+- **Buttons (Active):** `bg-orange-500` with hover states
+- **Buttons (Inactive):** `bg-amber-50 text-amber-800 border-amber-200`
+- **Success:** `text-green-500` (typed letters)
+- **Current:** `text-orange-600 border-orange-400` (current letter)
+- **Error:** `text-red-500` (shake animation)
+
+### Responsive Breakpoints
+- **Mobile:** < 640px (sm:)
+- **Tablet:** 640px - 768px
+- **Desktop:** > 768px (md:)
+
+Uses Tailwind responsive classes: `text-5xl sm:text-7xl md:text-9xl`
 
 ## Development Commands
 ```bash
@@ -88,16 +128,20 @@ npm run lint         # ESLint check
 - Minimal dependencies
 
 ### UX Requirements
-- Large touch/click targets for small hands
-- High contrast colors
-- Clear audio pronunciation
+- Large touch/click targets for small hands (touch-friendly on mobile)
+- High contrast colors with warm amber/orange theme
+- Clear audio pronunciation with adjustable speech rate
 - Forgiving error feedback (encouragement-focused)
+- Responsive design adapts to all screen sizes
+- ADHD-friendly: high contrast, warm colors, clear visual hierarchy
 
 ### Code Style
 - Functional React with hooks (no class components)
 - Component composition over prop drilling
-- Custom hooks for complex logic
+- Custom hooks for complex logic (properly memoized with useCallback)
 - Tailwind utility classes over custom CSS
+- Responsive-first: use `sm:` and `md:` prefixes for breakpoints
+- Accessibility: proper ARIA labels, keyboard navigation
 
 ## Common Tasks for Claude
 
@@ -115,19 +159,34 @@ Update [src/hooks/useTypingEngine.js](src/hooks/useTypingEngine.js) - validation
 
 ### Styling Changes
 Use Tailwind classes in components - v4 syntax with `@tailwindcss/postcss` adapter
+- Use `bg-linear-to-*` instead of `bg-gradient-to-*` (Tailwind v4)
+- Maintain warm color palette: amber, orange, yellow tones
+- Use responsive classes: `text-5xl sm:text-7xl md:text-9xl`
+- Add touch feedback: `hover:` and `active:` states
+
+### Making Components Mobile-Responsive
+1. Add responsive text sizing: `text-sm sm:text-base md:text-lg`
+2. Add responsive spacing: `p-2 sm:p-4 md:p-6`
+3. Add responsive layout: `flex-col sm:flex-row`
+4. Scale components: `scale-75 sm:scale-90 md:scale-100`
+5. Test on mobile viewports (320px minimum)
 
 ## Important Notes
 - All audio must remain programmatic (no MP3/WAV files)
-- All graphics must remain SVG-based (no PNG/JPG)
+- All graphics must remain SVG-based (no PNG/JPG, except favicon.svg)
 - Keep bundle size minimal for Chromebook performance
 - Test on low-bandwidth scenarios
 - Ensure keyboard events work on both physical and virtual keyboards
 - Speech synthesis may require user interaction to initialize (browser security)
+- Always use `useCallback` for functions in custom hooks to prevent race conditions
+- Keep warm amber/orange theme consistent across all components
 
 ## Known Issues / Considerations
 - Speech API voice quality varies by browser/OS
 - Some Chromebooks may have delayed audio synthesis
 - Mobile devices need special handling for speech synthesis initialization
+- React Compiler requires proper dependency arrays in useCallback hooks
+- localStorage must be wrapped with error handling for browser compatibility
 
 ## Related Documentation
 - [README.md](README.md) - Project overview and setup
