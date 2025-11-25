@@ -94,5 +94,5 @@ export const learningPaths = {
   beginner: ['letters', 'twoLetter', 'cvc'],
   kindergarten: ['twoLetter', 'cvc', 'kindergarten', 'animals', 'colors', 'family'],
   firstGrade: ['cvc', 'kindergarten', 'firstGrade'],
-  fun: ['animals', 'colors', 'family', 'cvc']
+  fun: ['animals', 'colors']
 };

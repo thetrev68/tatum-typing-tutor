@@ -5,23 +5,40 @@ import { useState } from 'react';
  * Tracks accuracy and automatically adjusts word complexity
  */
 export const useDifficultyProgression = (initialPath = 'kindergarten') => {
-  // Difficulty tiers from easiest to hardest
-  const difficultyTiers = [
-    { name: 'letters', label: '🔤 Letters', levels: ['letters'] },
-    { name: 'twoLetter', label: '✌️ Two Letters', levels: ['letters', 'twoLetter'] },
-    { name: 'simple', label: '🌟 Simple Words', levels: ['twoLetter', 'cvc'] },
-    { name: 'intermediate', label: '🎒 Kindergarten', levels: ['twoLetter', 'cvc', 'kindergarten', 'animals', 'colors', 'family'] },
-    { name: 'advanced', label: '🚀 1st Grade', levels: ['cvc', 'kindergarten', 'firstGrade'] }
-  ];
-
-  // Map initial path to difficulty tier - use useMemo to derive initial value
-  const pathMap = {
-    'beginner': 0,
-    'kindergarten': 3,
-    'firstGrade': 4,
-    'fun': 2
+  // Difficulty tiers based on the selected learning path
+  const getTiersForPath = (path) => {
+    switch (path) {
+      case 'beginner':
+        return [
+          { name: 'letters', label: '🔤 Letters', levels: ['letters'] },
+          { name: 'twoLetter', label: '✌️ Two Letters', levels: ['letters', 'twoLetter'] },
+          { name: 'simple', label: '🌟 Simple Words', levels: ['twoLetter', 'cvc'] }
+        ];
+      case 'fun':
+        return [
+          { name: 'animals', label: '🐶 Animals Only', levels: ['animals'] },
+          { name: 'colors', label: '🎨 Colors Only', levels: ['colors'] },
+          { name: 'mixed', label: '🌈 Animals & Colors', levels: ['animals', 'colors'] }
+        ];
+      case 'kindergarten':
+        return [
+          { name: 'simple', label: '🌟 Simple Words', levels: ['twoLetter', 'cvc'] },
+          { name: 'intermediate', label: '🎒 Kindergarten', levels: ['twoLetter', 'cvc', 'kindergarten', 'animals', 'colors', 'family'] }
+        ];
+      case 'firstGrade':
+        return [
+          { name: 'intermediate', label: '🎒 Kindergarten', levels: ['cvc', 'kindergarten'] },
+          { name: 'advanced', label: '🚀 1st Grade', levels: ['cvc', 'kindergarten', 'firstGrade'] }
+        ];
+      default:
+        return [
+          { name: 'intermediate', label: '🎒 Kindergarten', levels: ['twoLetter', 'cvc', 'kindergarten', 'animals', 'colors', 'family'] }
+        ];
+    }
   };
-  const initialDiff = pathMap[initialPath] || 3;
+
+  const difficultyTiers = getTiersForPath(initialPath);
+  const initialDiff = 0; // Always start at the first tier for the selected path
 
   const [currentDifficulty, setCurrentDifficulty] = useState(initialDiff);
   const [performanceHistory, setPerformanceHistory] = useState([]);
@@ -60,8 +77,14 @@ export const useDifficultyProgression = (initialPath = 'kindergarten') => {
     setPerformanceHistory([]);
   };
 
-  // Reset progression
+  // Reset progression (clears history but keeps difficulty level)
   const reset = () => {
+    setPerformanceHistory([]);
+  };
+
+  // Full reset (returns to starting difficulty for this path)
+  const resetToStart = () => {
+    setCurrentDifficulty(0);
     setPerformanceHistory([]);
   };
 
@@ -81,6 +104,7 @@ export const useDifficultyProgression = (initialPath = 'kindergarten') => {
     currentDifficulty,
     recordWord,
     reset,
+    resetToStart,
     setDifficulty,
     getCurrentTier,
     getCurrentLevels,

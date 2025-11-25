@@ -170,7 +170,7 @@ function App() {
     setWordsCompleted(0);
     setPerfectWordsCount(0);
     setMascotMood('neutral');
-    difficulty.reset();
+    difficulty.resetToStart(); // Start from the beginning of the selected path
     nextLevel();
   };
 
@@ -181,7 +181,7 @@ function App() {
     setMaxStreak(0);
     setGameState('playing');
     setMascotMood('neutral');
-    // Keep current difficulty level - don't reset
+    difficulty.reset(); // Keep current difficulty level, just clear performance history
     nextLevel();
   };
 
@@ -192,7 +192,15 @@ function App() {
     setStreak(0);
     setMaxStreak(0);
     setMascotMood('neutral');
-    difficulty.reset();
+    difficulty.resetToStart(); // Reset to beginning when going back to menu
+  };
+
+  const handleTitleClick = () => {
+    speakWord("TATUM'S Typing Adventure");
+  };
+
+  const handleTextClick = (text) => {
+    speakWord(text);
   };
 
   const targetLetter = currentWord[cursor];
@@ -201,7 +209,11 @@ function App() {
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-linear-to-br from-amber-100 via-orange-50 to-yellow-100 select-none overflow-hidden p-2 sm:p-4">
 
       {/* Personalized Hero Branding */}
-      <div className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20">
+      <div
+        className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20 cursor-pointer hover:scale-105 active:scale-95 transition-transform"
+        onClick={handleTitleClick}
+        title="Click to hear the title!"
+      >
         <div className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight">
           <span className="text-orange-500 drop-shadow-lg">TATUM'S</span>
         </div>
@@ -225,10 +237,19 @@ function App() {
             {/* Right Side - Menu */}
             <div className="w-full sm:w-2/3 flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-3 sm:p-6 pb-6">
               <div className="mb-4 sm:mb-8">
-                <h2 className="text-lg sm:text-2xl font-bold text-amber-800 mb-3 sm:mb-4 text-center">Choose Your Words!</h2>
+                <h2
+                  className="text-lg sm:text-2xl font-bold text-amber-800 mb-3 sm:mb-4 text-center cursor-pointer hover:scale-105 active:scale-95 transition-transform"
+                  onClick={() => handleTextClick('Choose Your Words!')}
+                  title="Click to hear!"
+                >
+                  Choose Your Words!
+                </h2>
                 <div className="flex flex-wrap gap-2 sm:gap-3 justify-center max-w-2xl">
                   <button
-                    onClick={() => setCurrentPath('beginner')}
+                    onClick={() => {
+                      handleTextClick('Letters and Simple Words');
+                      setCurrentPath('beginner');
+                    }}
                     className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'beginner'
                         ? 'bg-orange-500 text-white shadow-lg scale-105'
@@ -238,7 +259,10 @@ function App() {
                     🔤 Letters & Simple Words
                   </button>
                   <button
-                    onClick={() => setCurrentPath('kindergarten')}
+                    onClick={() => {
+                      handleTextClick('Kindergarten Mix');
+                      setCurrentPath('kindergarten');
+                    }}
                     className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'kindergarten'
                         ? 'bg-orange-500 text-white shadow-lg scale-105'
@@ -248,7 +272,10 @@ function App() {
                     🎒 Kindergarten Mix
                   </button>
                   <button
-                    onClick={() => setCurrentPath('fun')}
+                    onClick={() => {
+                      handleTextClick('Animals and Colors');
+                      setCurrentPath('fun');
+                    }}
                     className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'fun'
                         ? 'bg-orange-500 text-white shadow-lg scale-105'
@@ -258,7 +285,10 @@ function App() {
                     🎨 Animals & Colors
                   </button>
                   <button
-                    onClick={() => setCurrentPath('firstGrade')}
+                    onClick={() => {
+                      handleTextClick('First Grade Challenge');
+                      setCurrentPath('firstGrade');
+                    }}
                     className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl font-bold transition-all text-sm sm:text-base ${
                       currentPath === 'firstGrade'
                         ? 'bg-orange-500 text-white shadow-lg scale-105'
@@ -271,7 +301,10 @@ function App() {
               </div>
 
               <button
-                onClick={startGame}
+                onClick={() => {
+                  handleTextClick('Start!');
+                  startGame();
+                }}
                 className="px-8 py-4 sm:px-12 sm:py-6 bg-green-500 hover:bg-green-400 active:bg-green-600 text-white rounded-full text-2xl sm:text-4xl font-black shadow-[0_4px_0_rgb(21,128,61)] sm:shadow-[0_6px_0_rgb(21,128,61)] active:shadow-none active:translate-y-1 transition-all animate-bounce"
               >
                 START!
