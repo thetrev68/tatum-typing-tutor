@@ -1,16 +1,35 @@
-# React + Vite
+# Tatum Typing Tutor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight, browser-based typing and sight-reading game designed for K-1 students (Chromebook optimized).
 
-Currently, two official plugins are available:
+## 🎯 Project Goal
+To teach kindergarteners and 1st graders how to type and sight-read simultaneously using immediate audio-visual feedback. The app is designed to run offline on low-spec hardware (Chromebooks) by avoiding heavy asset downloads.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
+* **Core:** React 18 + Vite
+* **Styling:** Tailwind CSS v4 (using the `@tailwindcss/postcss` adapter)
+* **Language:** JavaScript (ES6+)
+* **Assets:** Programmatic SVGs (No raster images)
+* **Audio:** Web Audio API + SpeechSynthesis API (No external sound files)
 
-## React Compiler
+## 🚀 Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1.  **Clone the repo**
+    ```bash
+    git clone [https://github.com/thetrev68/tatum-typing-tutor.git](https://github.com/thetrev68/tatum-typing-tutor.git)
+    ```
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+3.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🎮 Current Features
+* **Dynamic Typing Engine:** Validates keystrokes in real-time.
+* **Visual Feedback:** Green (correct) / Red Shake (error) indicators.
+* **Audio Feedback:** TTS (Text-to-Speech) for words + Synthesized SFX for interactions.
+* **Assistive Keyboard:** On-screen keyboard highlights the specific key required next.
+* **Gamification:** Streak counter for perfect words.
