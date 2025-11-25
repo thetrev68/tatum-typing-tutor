@@ -1,5 +1,3 @@
-import React from 'react';
-
 const KEYS = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
@@ -18,7 +16,7 @@ export const Keyboard = ({ targetKey, onKeyPress }) => {
   };
 
   return (
-    <div className="flex flex-col gap-1 sm:gap-2 select-none scale-75 sm:scale-90 md:scale-100 origin-center">
+    <div className="flex flex-col gap-1 sm:gap-2 select-none scale-100 sm:scale-110 md:scale-100 origin-center">
       {KEYS.map((row, rowIndex) => (
         <div key={rowIndex} className="flex justify-center gap-1 sm:gap-2">
           {row.map((char) => {

@@ -138,6 +138,9 @@ function App() {
   );
 
   const startGame = () => {
+    // Play a silent click to initialize audio on mobile
+    playKeyClick();
+
     setGameState('playing');
     setStreak(0);
     setMaxStreak(0);
@@ -255,7 +258,7 @@ function App() {
         )}
 
         {gameState === 'playing' && (
-          <div className="flex flex-col items-center w-full h-full pt-6 sm:pt-10 overflow-y-auto sm:overflow-hidden">
+          <div className="flex flex-col items-center justify-center w-full h-full py-4 md:py-2 overflow-y-auto md:overflow-hidden gap-4 md:gap-2">
 
             {/* Level Up Notification Overlay */}
             <LevelUpNotification
@@ -278,21 +281,21 @@ function App() {
             </div>
 
             {/* Mascot Character */}
-            <div className="mb-3 sm:mb-6">
-              <Mascot mood={mascotMood} size={120} className="sm:w-40 sm:h-40" />
+            <div className="shrink-0">
+              <Mascot mood={mascotMood} size={100} className="sm:w-32 sm:h-32" />
             </div>
 
-            <div className="mb-4 sm:mb-8 px-2">
+            <div className="shrink-0 px-2">
                <WordDisplay word={currentWord} cursor={cursor} isShake={isShake} />
             </div>
 
-            <div className="mb-4 sm:mb-8 w-full px-2 overflow-x-auto">
+            <div className="shrink-0 w-full px-2">
                 <Keyboard targetKey={targetLetter} onKeyPress={handleKeyDown} />
             </div>
 
             <button
               onClick={() => speakWord(currentWord)}
-              className="flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 bg-amber-50 text-amber-700 rounded-xl font-bold hover:bg-amber-100 active:bg-amber-200 border-2 border-amber-200 transition text-sm sm:text-base mb-4"
+              className="shrink-0 flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-2 bg-amber-50 text-amber-700 rounded-xl font-bold hover:bg-amber-100 active:bg-amber-200 border-2 border-amber-200 transition text-sm sm:text-base"
             >
               <span>🔊</span> Say "{currentWord}"
             </button>

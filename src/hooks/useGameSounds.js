@@ -15,23 +15,33 @@ export const useGameSounds = () => {
   }, []);
 
   const playTone = useCallback((freq, type, duration) => {
-    initAudio();
-    const ctx = audioCtxRef.current;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+    try {
+      initAudio();
+      const ctx = audioCtxRef.current;
 
-    osc.type = type; 
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    
-    // Volume envelope (fade out to avoid clicking sound)
-    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+      // Extra resume for mobile browsers
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
 
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+      // Volume envelope (fade out to avoid clicking sound)
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (error) {
+      console.warn('Audio playback failed:', error);
+    }
   }, [initAudio]);
 
   const speakWord = useCallback((text) => {
@@ -40,7 +50,26 @@ export const useGameSounds = () => {
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 0.8; // Slower for kids
-    utterance.pitch = 1.1; // Slightly friendlier/higher pitch
+    utterance.pitch = 1.2; // Higher pitch for friendlier voice
+    utterance.volume = 1.0; // Full volume
+
+    // Try to select a child-friendly voice
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      // Prefer female voices or higher-pitched voices (better for kids)
+      const preferredVoice = voices.find(voice =>
+        voice.name.includes('Female') ||
+        voice.name.includes('Samantha') ||
+        voice.name.includes('Karen') ||
+        voice.name.includes('Victoria') ||
+        voice.name.includes('Google US English')
+      );
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+    }
+
     window.speechSynthesis.speak(utterance);
   }, []);
 
