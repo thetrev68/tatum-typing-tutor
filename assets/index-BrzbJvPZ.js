@@ -10,7 +10,7 @@ Error generating stack: `+a.message+`
               relative mx-0.5 sm:mx-1 transition-colors duration-100
               ${_?"text-green-500":"text-gray-300"}
               ${Y?"text-orange-600 border-b-4 sm:border-b-8 border-orange-400":""}
-            `,children:d},M)})}),dy=[["q","w","e","r","t","y","u","i","o","p"],["a","s","d","f","g","h","j","k","l"],["z","x","c","v","b","n","m"]],ry=({targetKey:x,onKeyPress:O})=>{const R=d=>{O&&O({key:d,preventDefault:()=>{}})};return b.jsxs("div",{className:"flex flex-col gap-1 sm:gap-2 select-none scale-75 sm:scale-90 md:scale-100 origin-center",children:[dy.map((d,M)=>b.jsx("div",{className:"flex justify-center gap-1 sm:gap-2",children:d.map(_=>{const Y=_===x?.toLowerCase();return b.jsx("button",{onClick:()=>R(_),className:`
+            `,children:d},M)})}),dy=[["q","w","e","r","t","y","u","i","o","p"],["a","s","d","f","g","h","j","k","l"],["z","x","c","v","b","n","m"]],ry=({targetKey:x,onKeyPress:O})=>{const R=d=>{O&&O({key:d,preventDefault:()=>{}})};return b.jsxs("div",{className:"flex flex-col gap-1 sm:gap-2 select-none scale-100 sm:scale-110 md:scale-100 origin-center",children:[dy.map((d,M)=>b.jsx("div",{className:"flex justify-center gap-1 sm:gap-2",children:d.map(_=>{const Y=_===x?.toLowerCase();return b.jsx("button",{onClick:()=>R(_),className:`
                   w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center
                   rounded-lg text-xl sm:text-2xl font-bold uppercase shadow-md transition-all
                   cursor-pointer active:scale-95
