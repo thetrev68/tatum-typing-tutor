@@ -73,41 +73,98 @@ export const useGameSounds = () => {
     window.speechSynthesis.speak(utterance);
   }, []);
 
-  // Victory fanfare - ascending triumphant melody
+  // Victory fanfare - upbeat celebratory melody
   const playVictory = useCallback(() => {
-    initAudio();
-    const ctx = audioCtxRef.current;
-    const notes = [
-      { freq: 523, time: 0, duration: 0.15 },      // C
-      { freq: 659, time: 0.15, duration: 0.15 },   // E
-      { freq: 784, time: 0.3, duration: 0.15 },    // G
-      { freq: 1047, time: 0.45, duration: 0.3 }    // High C (longer)
-    ];
+    try {
+      initAudio();
+      const ctx = audioCtxRef.current;
 
-    notes.forEach(({ freq, time, duration }) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      // Resume if suspended
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
+      // Extended victory melody - "Ta-da!" fanfare
+      const melody = [
+        { freq: 523, time: 0, duration: 0.12 },       // C
+        { freq: 659, time: 0.12, duration: 0.12 },    // E
+        { freq: 784, time: 0.24, duration: 0.12 },    // G
+        { freq: 1047, time: 0.36, duration: 0.25 },   // High C
+        { freq: 784, time: 0.65, duration: 0.12 },    // G
+        { freq: 1047, time: 0.77, duration: 0.35 }    // High C (held)
+      ];
 
-      // Volume envelope with attack and release
-      gain.gain.setValueAtTime(0, ctx.currentTime + time);
-      gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + time + 0.02); // Attack
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration); // Release
+      melody.forEach(({ freq, time, duration }) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+        osc.type = 'triangle'; // Warmer sound for celebration
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
 
-      osc.start(ctx.currentTime + time);
-      osc.stop(ctx.currentTime + time + duration);
-    });
+        // Volume envelope with attack and release
+        gain.gain.setValueAtTime(0, ctx.currentTime + time);
+        gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + time + 0.02); // Attack
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration); // Release
 
-    // Add a cheerful "hooray" speech after the melody
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + time);
+        osc.stop(ctx.currentTime + time + duration);
+      });
+
+      // Add harmony for richer sound
+      const harmony = [
+        { freq: 392, time: 0.36, duration: 0.25 },    // G (below high C)
+        { freq: 659, time: 0.77, duration: 0.35 }     // E (harmony)
+      ];
+
+      harmony.forEach(({ freq, time, duration }) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
+
+        gain.gain.setValueAtTime(0, ctx.currentTime + time);
+        gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + time + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + time);
+        osc.stop(ctx.currentTime + time + duration);
+      });
+    } catch (error) {
+      console.warn('Victory sound failed:', error);
+    }
+
+    // Enthusiastic victory speech with higher pitch
     setTimeout(() => {
-      speakWord('Hooray! You did it!');
-    }, 800);
-  }, [initAudio, speakWord]);
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance('Awesome job! You won!');
+      utterance.rate = 1.0; // Faster, more excited
+      utterance.pitch = 1.4; // Higher pitch for excitement
+      utterance.volume = 1.0;
+
+      // Try to select a child-friendly voice
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const preferredVoice = voices.find(voice =>
+          voice.name.includes('Female') ||
+          voice.name.includes('Samantha') ||
+          voice.name.includes('Karen') ||
+          voice.name.includes('Victoria')
+        );
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+      }
+
+      window.speechSynthesis.speak(utterance);
+    }, 1200); // Wait for melody to finish
+  }, [initAudio]);
 
   return {
     playSuccess: () => playTone(600, 'sine', 0.2), // High Ding
