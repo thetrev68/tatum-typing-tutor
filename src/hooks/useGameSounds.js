@@ -48,7 +48,16 @@ export const useGameSounds = () => {
     // Cancel any current speech so they don't stack up
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    // Pronunciation helper - provide phonetic alternatives for words that are often mispronounced
+    const pronunciationMap = {
+      "TATUM'S Typing Adventure": "Tay-tums Typing Adventure",
+      "TATUM'S": "Tay-tum's"
+    };
+
+    // Use phonetic version if available, otherwise use original text
+    const spokenText = pronunciationMap[text] || text;
+
+    const utterance = new SpeechSynthesisUtterance(spokenText);
     utterance.rate = 0.8; // Slower for kids
     utterance.pitch = 1.2; // Higher pitch for friendlier voice
     utterance.volume = 1.0; // Full volume
