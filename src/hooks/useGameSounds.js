@@ -36,7 +36,7 @@ export const useGameSounds = () => {
 
   const speakWord = useCallback((text) => {
     // Cancel any current speech so they don't stack up
-    window.speechSynthesis.cancel(); 
+    window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 0.8; // Slower for kids
@@ -44,10 +44,47 @@ export const useGameSounds = () => {
     window.speechSynthesis.speak(utterance);
   }, []);
 
+  // Victory fanfare - ascending triumphant melody
+  const playVictory = useCallback(() => {
+    initAudio();
+    const ctx = audioCtxRef.current;
+    const notes = [
+      { freq: 523, time: 0, duration: 0.15 },      // C
+      { freq: 659, time: 0.15, duration: 0.15 },   // E
+      { freq: 784, time: 0.3, duration: 0.15 },    // G
+      { freq: 1047, time: 0.45, duration: 0.3 }    // High C (longer)
+    ];
+
+    notes.forEach(({ freq, time, duration }) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
+
+      // Volume envelope with attack and release
+      gain.gain.setValueAtTime(0, ctx.currentTime + time);
+      gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + time + 0.02); // Attack
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + time + duration); // Release
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime + time);
+      osc.stop(ctx.currentTime + time + duration);
+    });
+
+    // Add a cheerful "hooray" speech after the melody
+    setTimeout(() => {
+      speakWord('Hooray! You did it!');
+    }, 800);
+  }, [initAudio, speakWord]);
+
   return {
     playSuccess: () => playTone(600, 'sine', 0.2), // High Ding
     playError: () => playTone(150, 'sawtooth', 0.4), // Low Buzz
     playKeyClick: () => playTone(800, 'triangle', 0.05), // Short click
+    playVictory, // Victory fanfare for win screen
     speakWord
   };
 };

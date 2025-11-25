@@ -1,13 +1,42 @@
 @import "tailwindcss";
 
 body {
-  background-color: #f0f9ff; 
-  overflow: hidden; 
+  background-color: #f0f9ff;
+  overflow: hidden;
 }
 
-/* Add this: */
+/* Text border effect */
 .border-text {
-  text-shadow: 
+  text-shadow:
     2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
     1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}
+
+/* Custom animations for win screen */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fade-in-up 0.6s ease-out;
 }
