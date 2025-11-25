@@ -21,7 +21,7 @@ This is your Project Plan. It turns abstract ideas into actionable tickets.
 
 ## 🔮 Phase 3: Persistence & PWA
 - [x] **Local Storage:** Save the user's high score and selected difficulty level so it remembers them on refresh.
-- [~] **PWA Configuration:** Add `manifest.json` and Service Workers so the app can be installed on a Chromebook and run without Wi-Fi.
+- [x] **PWA Configuration:** Add `manifest.json` and Service Workers so the app can be installed on a Chromebook and run without Wi-Fi.
 
 ## 🚀 Phase 4: Data & Analytics (Optional)
 - [ ] **Teacher Mode:** Track which letters the user misses most frequently (e.g., "User struggles with 'Q' vs 'P'").
