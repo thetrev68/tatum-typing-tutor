@@ -26,7 +26,7 @@ export const useTypingEngine = (targetWord, onCorrect, onError, onComplete) => {
       onCorrect();
       const nextCursor = cursor + 1;
       setCursor(nextCursor);
-      
+
       if (nextCursor === targetWord.length) {
         onComplete();
       }
@@ -44,5 +44,5 @@ export const useTypingEngine = (targetWord, onCorrect, onError, onComplete) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  return { cursor, isShake };
+  return { cursor, isShake, handleKeyDown };
 };

@@ -11,6 +11,7 @@ import { Mascot } from './components/Mascot';
 import { WinScreen } from './components/WinScreen';
 import { LevelUpNotification } from './components/LevelUpNotification';
 import { StatsDisplay } from './components/StatsDisplay';
+import { MobileInput } from './components/MobileInput';
 
 function App() {
   // --- Local Storage & Persistence ---
@@ -130,7 +131,7 @@ function App() {
       speakWord(newWord);
   };
 
-  const { cursor, isShake } = useTypingEngine(
+  const { cursor, isShake, handleKeyDown } = useTypingEngine(
     gameState === 'playing' ? currentWord : '',
     handleCorrectKey,
     handleErrorKey,
@@ -173,6 +174,9 @@ function App() {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-linear-to-br from-amber-100 via-orange-50 to-yellow-100 select-none overflow-hidden p-2 sm:p-4">
+
+      {/* Mobile Input - invisible but captures touch keyboard */}
+      <MobileInput isActive={gameState === 'playing'} onInput={handleKeyDown} />
 
       {/* Personalized Hero Branding */}
       <div className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20">
