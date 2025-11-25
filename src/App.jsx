@@ -11,7 +11,6 @@ import { Mascot } from './components/Mascot';
 import { WinScreen } from './components/WinScreen';
 import { LevelUpNotification } from './components/LevelUpNotification';
 import { StatsDisplay } from './components/StatsDisplay';
-import { MobileInput } from './components/MobileInput';
 
 function App() {
   // --- Local Storage & Persistence ---
@@ -175,9 +174,6 @@ function App() {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-linear-to-br from-amber-100 via-orange-50 to-yellow-100 select-none overflow-hidden p-2 sm:p-4">
 
-      {/* Mobile Input - invisible but captures touch keyboard */}
-      <MobileInput isActive={gameState === 'playing'} onInput={handleKeyDown} />
-
       {/* Personalized Hero Branding */}
       <div className="absolute top-2 sm:top-8 left-1/2 transform -translate-x-1/2 text-center z-20">
         <div className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight">
@@ -291,7 +287,7 @@ function App() {
             </div>
 
             <div className="mb-4 sm:mb-8 w-full px-2 overflow-x-auto">
-                <Keyboard targetKey={targetLetter} />
+                <Keyboard targetKey={targetLetter} onKeyPress={handleKeyDown} />
             </div>
 
             <button
